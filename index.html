@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurFlix</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #141414;
+            color: #fff;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        .netflix-logo {
+            color: #e50914;
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- LOGIN SCREEN STYLES --- */
+        #login-screen {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://assets.nflxext.com/ffe/siteui/vlv3/ab180a27-b661-44d7-a6d9-940cb32f2f4a/7fb62e44-31fd-4e1c-b5e0-4654d29af25c/US-en-20231009-popsignuptwoweeks-perspective_alpha_website_medium.jpg');
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+        }
+        .login-header { padding: 25px 50px; }
+        .login-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-box {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 60px 68px 40px;
+            width: 450px;
+            border-radius: 4px;
+        }
+        .login-box h2 { font-size: 2rem; margin-bottom: 28px; font-weight: 500; }
+        .input-group { margin-bottom: 16px; }
+        .input-group input {
+            width: 100%;
+            padding: 16px 20px;
+            background: #333;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .input-group input:focus { background: #454545; outline: none; }
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: #e50914;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: background 0.2s;
+        }
+        .btn-login:hover { background: #c11119; }
+        .login-footer { margin-top: 50px; color: #737373; font-size: 1rem; }
+
+        /* --- PROFILE SELECTION STYLES --- */
+        #profile-screen {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #141414;
+        }
+        .profile-title { font-size: 3rem; font-weight: normal; margin-bottom: 2rem; }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 4px;
+            border: 2px solid transparent;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png');
+            background-size: cover;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .profile:hover .profile-img { border: 2px solid white; }
+        .profile-name { text-align: center; margin-top: 15px; font-size: 1.2rem; color: #808080; }
+        .profile:hover .profile-name { color: #fff; }
+
+        /* --- DASHBOARD STYLES --- */
+        #dashboard-screen { display: none; }
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            height: 70px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0));
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.4s ease;
+        }
+        .nav-bar.scrolled { background-color: #141414; }
+        .nav-left { display: flex; align-items: center; gap: 30px; }
+        .nav-links { display: flex; gap: 20px; list-style: none; font-size: 0.85rem; }
+        .nav-links li { cursor: pointer; color: #e5e5e5; transition: color 0.2s; }
+        .nav-links li:hover { color: #b3b3b3; }
+        .nav-links li.active { font-weight: bold; color: white; }
+        
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-profile-icon {
+            width: 35px; height: 35px; border-radius: 4px;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png');
+            background-size: cover; cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(to right, #141414 10%, transparent 60%),
+                        linear-gradient(to top, #141414 5%, transparent 40%),
+                        url('hero-bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 50px;
+        }
+        .hero-title { font-size: 4.5rem; font-weight: bold; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        .hero-description { font-size: 1.2rem; width: 40%; margin-bottom: 30px; text-shadow: 1px 1px 2px rgba(0,0,0,0.6); line-height: 1.4; }
+        
+        .btn-group { display: flex; gap: 15px; }
+        .btn-play, .btn-info {
+            display: flex; align-items: center; justify-content: center;
+            padding: 10px 25px; border: none; border-radius: 4px;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .btn-play { background-color: white; color: black; }
+        .btn-play:hover { background-color: rgba(255,255,255,0.75); }
+        .btn-info { background-color: rgba(109, 109, 110, 0.7); color: white; }
+        .btn-info:hover { background-color: rgba(109, 109, 110, 0.4); }
+
+        /* Netflix Rows & Hover Cards */
+        .row { padding: 0 50px; margin-top: -50px; position: relative; z-index: 10; margin-bottom: 40px; }
+        .row h3 { margin-bottom: 15px; font-size: 1.4rem; color: #e5e5e5; }
+        .row-posters {
+            display: flex; overflow-x: auto; overflow-y: hidden; padding: 20px 0; gap: 10px;
+        }
+        .row-posters::-webkit-scrollbar { display: none; }
+        
+        .poster-container {
+            position: relative;
+            min-width: 280px;
+            height: 160px;
+            border-radius: 4px;
+            transition: transform 0.4s ease, z-index 0.4s ease;
+            cursor: pointer;
+        }
+        .poster {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 4px;
+        }
+        
+        .poster-info {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 100%);
+            padding: 15px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .poster-container:hover { transform: scale(1.15); z-index: 20; }
+        .poster-container:hover .poster-info { opacity: 1; }
+        
+        .poster-controls { display: flex; gap: 10px; margin-bottom: 10px; }
+        .mini-btn { 
+            width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); 
+            background: rgba(30,30,30,0.5); color: white; display: flex; align-items: center; justify-content: center; 
+            font-size: 0.8rem; cursor: pointer; transition: 0.2s;
+        }
+        .mini-btn:hover { border-color: white; background: white; color: black; }
+        
+        .poster-metadata { font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        .match { color: #46d369; font-weight: bold; }
+        .age-rating { border: 1px solid rgba(255,255,255,0.4); padding: 0 4px; }
+        .poster-title-text { font-weight: bold; margin-top: 5px; font-size: 1rem; text-shadow: 1px 1px 2px black; }
+
+        /* --- MODALS & OVERLAYS --- */
+        /* Info Modal */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 200; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background-color: #181818; width: 600px; max-height: 80vh; border-radius: 8px;
+            overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.8); position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 15px; right: 15px; width: 36px; height: 36px;
+            background: rgba(24,24,24,0.7); border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; font-size: 1.2rem; z-index: 10; border: none; color: white;
+        }
+        .modal-hero { width: 100%; height: 300px; object-fit: cover; }
+        .modal-text { padding: 30px; }
+        .modal-text h2 { font-size: 2rem; margin-bottom: 10px; }
+        
+        /* Video Player */
+        .video-player {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: black; z-index: 300; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .video-close {
+            position: absolute; top: 30px; left: 30px; font-size: 1.2rem; color: white;
+            cursor: pointer; background: transparent; border: none; font-weight: bold; z-index: 310;
+        }
+        #heroVideo {
+            width: 90%; max-width: 1200px; border-radius: 8px; outline: none; box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            background: #e50914; color: white; padding: 15px 30px; border-radius: 4px;
+            z-index: 400; transition: bottom 0.3s ease; font-weight: bold;
+        }
+
+        /* Fade Animation */
+        .fade-in { animation: fadeIn 0.8s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <div class="login-header">
+            <h1 class="netflix-logo">OurFlix</h1>
+        </div>
+        <div class="login-container">
+            <div class="login-box">
+                <h2>Sign In</h2>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <input type="password" id="passcode" placeholder="Enter Anniversary Password" required>
+                    </div>
+                    <button type="submit" class="btn-login">Sign In</button>
+                </form>
+                <div class="login-footer">
+                    <p style="margin-top: 15px;">New to OurFlix? <b style="color:white">You're the only user.</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-screen">
+        <h1 class="profile-title">Who's watching?</h1>
+        <div class="profile" id="milan-profile">
+            <div class="profile-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png');"></div>
+            <p class="profile-name">MILAN</p>
+        </div>
+    </div>
+
+    <div id="dashboard-screen">
+        
+        <div class="nav-bar" id="navbar">
+            <div class="nav-left">
+                <h1 class="netflix-logo" style="font-size: 1.8rem;">OurFlix</h1>
+                <ul class="nav-links">
+                    <li class="active">Home</li>
+                    <li onclick="showToast('Only Season 1 of Us is available right now!')">TV Shows</li>
+                    <li onclick="showToast('Movies are coming soon!')">Movies</li>
+                    <li onclick="showToast('Added to your list!')">My List</li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="nav-profile-icon"></div>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="hero-title">SEASON 1</div>
+            <div class="hero-description">The critically acclaimed story of how two people fell in love. Featuring endless laughs, unforgettable dates, and the best year of my life.</div>
+            <div class="btn-group">
+                <button class="btn-play" onclick="playHeroVideo()">▶ Play</button>
+                <button class="btn-info" onclick="openModal('SEASON 1', 'The story of us.', 'hero-modal.jpg')">ℹ More Info</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3>Trending: Our Adventures</h3>
+            <div class="row-posters">
+                
+                <div class="poster-container">
+                    <img class="poster" src="annecy.jpg" alt="Annecy">
+                    <div class="poster-info">
+                        <div class="poster-controls">
+                            <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
+                            <button class="mini-btn" onclick="openModal('Annecy', 'That unforgettable drive down in the GLC 220d.', 'annecy-modal.jpg')">ℹ</button>
+                        </div>
+                        <div class="poster-metadata"><span class="match">99% Match</span> <span>2026</span> <span class="age-rating">TV-MA</span></div>
+                        <div class="poster-title-text">Annecy</div>
+                    </div>
+                </div>
+
+                <div class="poster-container">
+                    <img class="poster" src="jura.jpg" alt="Jura">
+                    <div class="poster-info">
+                        <div class="poster-controls">
+                            <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
+                            <button class="mini-btn" onclick="openModal('Jura', 'Escaping to the mountains.', 'jura-modal.jpg')">ℹ</button>
+                        </div>
+                        <div class="poster-metadata"><span class="match">98% Match</span> <span>2026</span> <span class="age-rating">TV-14</span></div>
+                        <div class="poster-title-text">Jura</div>
+                    </div>
+                </div>
+
+                <div class="poster-container">
+                    <img class="poster" src="amsterdam.jpg" alt="Amsterdam">
+                    <div class="poster-info">
+                        <div class="poster-controls">
+                            <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
+                            <button class="mini-btn" onclick="openModal('Amsterdam', 'Canals, bikes, and us.', 'amsterdam-modal.jpg')">ℹ</button>
+                        </div>
+                        <div class="poster-metadata"><span class="match">100% Match</span> <span>2026</span></div>
+                        <div class="poster-title-text">Amsterdam</div>
+                    </div>
+                </div>
+
+                <div class="poster-container">
+                    <img class="poster" src="mont-saint-michel.jpg" alt="Mont Saint-Michel">
+                    <div class="poster-info">
+                        <div class="poster-controls">
+                            <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
+                            <button class="mini-btn" onclick="openModal('Mont Saint-Michel', 'Like a fairytale come to life.', 'mont-saint-michel-modal.jpg')">ℹ</button>
+                        </div>
+                        <div class="poster-metadata"><span class="match">97% Match</span></div>
+                        <div class="poster-title-text">Mont Saint-Michel</div>
+                    </div>
+                </div>
+
+                <div class="poster-container">
+                    <img class="poster" src="saint-malo.jpg" alt="Saint-Malo">
+                    <div class="poster-info">
+                        <div class="poster-controls">
+                            <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
+                            <button class="mini-btn" onclick="openModal('Saint-Malo', 'Ocean breeze and ramparts.', 'saint-malo-modal.jpg')">ℹ</button>
+                        </div>
+                        <div class="poster-metadata"><span class="match">99% Match</span></div>
+                        <div class="poster-title-text">Saint-Malo</div>
+                    </div>
+                </div>
+
+                <div class="poster-container">
+                    <img class="poster" src="mont-dore.jpg" alt="Mont Dore">
+                    <div class="poster-info">
+                        <div class="poster-controls">
+                            <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
+                            <button class="mini-btn" onclick="openModal('Mont Dore', 'Our volcanic getaway.', 'mont-dore-modal.jpg')">ℹ</button>
+                        </div>
+                        <div class="poster-metadata"><span class="match">98% Match</span></div>
+                        <div class="poster-title-text">Mont Dore</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div style="height: 100px;"></div>
+    </div>
+
+    <div class="modal-overlay" id="infoModal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal(event)">✕</button>
+            <img class="modal-hero" id="modalImg" src="" alt="Hero">
+            <div class="modal-text">
+                <h2 id="modalTitle">Title</h2>
+                <div class="poster-metadata" style="margin-bottom: 15px;">
+                    <span class="match">100% Match</span> <span>2026</span> <span class="age-rating">HD</span>
+                </div>
+                <p id="modalDesc">Description goes here.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="video-player" id="videoPlayer">
+        <button class="video-close" onclick="closeVideo()">← Back</button>
+        <video id="heroVideo" controls>
+            <source src="montage.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="toast" id="toastBox">Notification</div>
+
+    <script>
+        // --- 1. Login Handling ---
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            const passcode = document.getElementById('passcode').value.toLowerCase().trim();
+            
+            // Password Check
+            if(passcode === "0531" || passcode === "i love you") {
+                document.getElementById('login-screen').style.display = 'none';
+                const profileScreen = document.getElementById('profile-screen');
+                profileScreen.style.display = 'flex';
+                profileScreen.classList.add('fade-in');
+            } else {
+                alert("Incorrect passcode! Hint: When is our anniversary?");
+            }
+        });
+
+        // --- 2. Profile Selection ---
+        document.getElementById('milan-profile').addEventListener('click', function() {
+            document.getElementById('profile-screen').style.display = 'none';
+            const dashboard = document.getElementById('dashboard-screen');
+            dashboard.style.display = 'block';
+            dashboard.classList.add('fade-in');
+            window.scrollTo(0, 0);
+        });
+
+        // --- 3. Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // --- 4. Modal Popups (More Info) ---
+        function openModal(title, desc, imgSrc) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function closeModal(e) {
+            // Only close if they click the 'X' or the background overlay
+            if (e.target.id === 'infoModal' || e.target.classList.contains('modal-close')) {
+                document.getElementById('infoModal').style.display = 'none';
+            }
+        }
+
+        // --- 5. REAL VIDEO PLAYER ---
+        function playHeroVideo() {
+            document.getElementById('videoPlayer').style.display = 'flex';
+            const video = document.getElementById('heroVideo');
+            video.play(); // Auto-start the video
+        }
+
+        function closeVideo() {
+            document.getElementById('videoPlayer').style.display = 'none';
+            const video = document.getElementById('heroVideo');
+            video.pause(); // Pause when exiting
+            video.currentTime = 0; // Rewind to start
+        }
+
+        // --- 6. Toast Notifications ---
+        function showToast(message) {
+            const toast = document.getElementById('toastBox');
+            toast.innerText = message;
+            toast.style.bottom = '20px'; // Slide up
+            
+            setTimeout(() => {
+                toast.style.bottom = '-100px';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
