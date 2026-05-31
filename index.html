@@ -120,16 +120,16 @@
         .nav-profile-icon {
             width: 35px; height: 35px; border-radius: 4px;
             background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png');
-            background-size: cover; cursor: pointer;
+            background-size: cover; cursor: pointer; border: 1px solid transparent; transition: 0.2s;
         }
+        .nav-profile-icon:hover { border: 1px solid white; }
 
-        /* Hero Section */
+        /* Hero Section - NOW FULL SCREEN (100vh) */
         .hero {
-            height: 85vh;
+            height: 100vh;
             background: linear-gradient(to right, #141414 10%, transparent 60%),
                         linear-gradient(to top, #141414 5%, transparent 40%),
                         url('hero-bg.JPG'); 
-            /* Shows the FULL image, no cropping */
             background-size: contain; 
             background-repeat: no-repeat;
             background-position: center center; 
@@ -172,7 +172,6 @@
         }
         .poster {
             width: 100%; height: 100%; border-radius: 4px;
-            /* OBJECT-FIT: CONTAIN guarantees the entire photo is always shown without cropping */
             object-fit: contain; 
         }
         
@@ -236,13 +235,30 @@
         }
         .modal-hero { 
             width: 100%; height: 350px; 
-            /* Guarantees the entire photo is shown in the pop-up */
             object-fit: contain; 
             background-color: #000;
         }
         .modal-text { padding: 30px; }
         .modal-text h2 { font-size: 2rem; margin-bottom: 10px; }
         
+        /* Easter Egg Letter Modal */
+        .letter-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 500; justify-content: center; align-items: center;
+        }
+        .letter-content {
+            background-color: #181818; width: 90%; max-width: 550px; padding: 40px;
+            border-radius: 8px; border: 1px solid #333; position: relative;
+            text-align: left; line-height: 1.6; font-size: 1.1rem; box-shadow: 0 0 30px rgba(0,0,0,0.9);
+        }
+        .letter-close {
+            position: absolute; top: 15px; right: 15px; width: 36px; height: 36px;
+            background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; font-size: 1.2rem; border: none; color: white; transition: 0.2s;
+        }
+        .letter-close:hover { background: rgba(255,255,255,0.2); }
+        .letter-content h2 { color: #e50914; margin-bottom: 20px; font-size: 2rem; }
+
         /* Video Player */
         .video-player {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -310,11 +326,12 @@
                     <li class="active">Home</li>
                     <li onclick="showToast('Only Season 1 of Us is available right now!')">TV Shows</li>
                     <li onclick="showToast('Movies are coming soon!')">Movies</li>
-                    <li onclick="showToast('Added to your list!')">My List</li>
+                    <li onclick="showToast('Hint: Try clicking your profile picture... 👀')">My List</li>
                 </ul>
             </div>
             <div class="nav-right">
-                <div class="nav-profile-icon"></div>
+                <!-- EASTER EGG TRIGGER: Clicking the profile icon opens the letter -->
+                <div class="nav-profile-icon" onclick="openLetter()"></div>
             </div>
         </div>
 
@@ -460,6 +477,22 @@
     </div>
 
     <!-- UI ELEMENTS -->
+    
+    <!-- Easter Egg Letter Modal -->
+    <div class="letter-overlay" id="letterModal" onclick="closeLetter(event)">
+        <div class="letter-content">
+            <button class="letter-close" onclick="closeLetter(event)">✕</button>
+            <h2>Happy Anniversary, Milan.</h2>
+            <p>I know I messed up. It was our 1-year anniversary, and I didn't do anything to celebrate it the way you deserve.</p>
+            <br>
+            <p>You mean everything to me, and I am so sorry for dropping the ball. I built this place for us to look back on all our adventures together, and to remind you of exactly how much I love you.</p>
+            <br>
+            <p>I promise Season 2 is going to be even better.</p>
+            <br>
+            <p>Love,<br>Alan</p>
+        </div>
+    </div>
+
     <!-- Info Modal -->
     <div class="modal-overlay" id="infoModal" onclick="closeModal(event)">
         <div class="modal-content">
@@ -537,7 +570,6 @@
 
         // --- 4.5. Top 5 Modal Popups (Custom Reasons) ---
         function openTop5Modal(number) {
-            // ---> CHANGE THESE REASONS TO MAKE THEM YOUR OWN! <---
             const reasons = {
                 1: { title: "Your Smile", desc: "It completely lights up my world every single time I see it." },
                 2: { title: "Your Sense of Adventure", desc: "Whether we are driving to Annecy or exploring Amsterdam, you make every trip unforgettable." },
@@ -551,11 +583,9 @@
             document.getElementById('modalTitle').innerText = "#" + number + ": " + selected.title;
             document.getElementById('modalDesc').innerText = selected.desc;
             
-            // Use placeholder heart images for the top 5 modals
             const modalImg = document.getElementById('modalImg');
             modalImg.src = "https://images.unsplash.com/photo-1518199266791-5375a83164ba?w=1000&q=80";
             
-            // Hide the year and rating tags for the love list
             document.getElementById('modalMatch').innerText = "Top 5 List";
             document.getElementById('modalYear').style.display = "none";
             document.getElementById('modalRating').style.display = "none";
@@ -566,6 +596,17 @@
         function closeModal(e) {
             if (e.target.id === 'infoModal' || e.target.classList.contains('modal-close')) {
                 document.getElementById('infoModal').style.display = 'none';
+            }
+        }
+
+        // --- 4.8. Easter Egg Letter ---
+        function openLetter() {
+            document.getElementById('letterModal').style.display = 'flex';
+        }
+
+        function closeLetter(e) {
+            if (e.target.id === 'letterModal' || e.target.classList.contains('letter-close')) {
+                document.getElementById('letterModal').style.display = 'none';
             }
         }
 
