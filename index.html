@@ -130,7 +130,8 @@
                         linear-gradient(to top, #141414 5%, transparent 40%),
                         url('hero-bg.JPG'); 
             background-size: cover;
-            background-position: center;
+            /* Shifted focal point slightly up to protect faces */
+            background-position: center 20%; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -150,24 +151,27 @@
         .btn-info { background-color: rgba(109, 109, 110, 0.7); color: white; }
         .btn-info:hover { background-color: rgba(109, 109, 110, 0.4); }
 
-        /* Netflix Rows & Hover Cards */
+        /* Netflix Rows & Hover Cards (NOW VERTICAL POSTERS) */
         .row { padding: 0 50px; margin-top: -50px; position: relative; z-index: 10; margin-bottom: 40px; }
         .row h3 { margin-bottom: 15px; font-size: 1.4rem; color: #e5e5e5; }
         .row-posters {
-            display: flex; overflow-x: auto; overflow-y: hidden; padding: 20px 0; gap: 10px;
+            display: flex; overflow-x: auto; overflow-y: hidden; padding: 20px 0; gap: 15px;
         }
         .row-posters::-webkit-scrollbar { display: none; }
         
         .poster-container {
             position: relative;
-            min-width: 280px;
-            height: 160px;
+            /* CHANGED TO VERTICAL PROPORTIONS */
+            min-width: 180px;
+            height: 270px;
             border-radius: 4px;
             transition: transform 0.4s ease, z-index 0.4s ease;
             cursor: pointer;
         }
         .poster {
             width: 100%; height: 100%; object-fit: cover; border-radius: 4px;
+            /* Ensures heads/faces stay in the frame if cropping is needed */
+            object-position: center 20%; 
         }
         
         .poster-info {
@@ -212,7 +216,11 @@
             background: rgba(24,24,24,0.7); border-radius: 50%; display: flex; justify-content: center; align-items: center;
             cursor: pointer; font-size: 1.2rem; z-index: 10; border: none; color: white;
         }
-        .modal-hero { width: 100%; height: 300px; object-fit: cover; }
+        .modal-hero { 
+            width: 100%; height: 350px; object-fit: cover; 
+            /* Protects faces in the pop-up */
+            object-position: center 20%;
+        }
         .modal-text { padding: 30px; }
         .modal-text h2 { font-size: 2rem; margin-bottom: 10px; }
         
@@ -243,6 +251,7 @@
 </head>
 <body>
 
+    <!-- 1. LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-header">
             <h1 class="netflix-logo">OurFlix</h1>
@@ -263,6 +272,7 @@
         </div>
     </div>
 
+    <!-- 2. PROFILE SELECTION -->
     <div id="profile-screen">
         <h1 class="profile-title">Who's watching?</h1>
         <div class="profile" id="milan-profile">
@@ -271,6 +281,7 @@
         </div>
     </div>
 
+    <!-- 3. MAIN DASHBOARD -->
     <div id="dashboard-screen">
         
         <div class="nav-bar" id="navbar">
@@ -297,10 +308,12 @@
             </div>
         </div>
 
+        <!-- ROW 1: OUR ADVENTURES -->
         <div class="row">
             <h3>Trending: Our Adventures</h3>
             <div class="row-posters">
                 
+                <!-- Annecy -->
                 <div class="poster-container">
                     <img class="poster" src="annecy.JPG" alt="Annecy">
                     <div class="poster-info">
@@ -313,6 +326,7 @@
                     </div>
                 </div>
 
+                <!-- Jura -->
                 <div class="poster-container">
                     <img class="poster" src="jura.jpeg" alt="Jura">
                     <div class="poster-info">
@@ -325,6 +339,7 @@
                     </div>
                 </div>
 
+                <!-- Amsterdam -->
                 <div class="poster-container">
                     <img class="poster" src="amsterdam.jpeg" alt="Amsterdam">
                     <div class="poster-info">
@@ -337,6 +352,7 @@
                     </div>
                 </div>
 
+                <!-- Mont Saint-Michel -->
                 <div class="poster-container">
                     <img class="poster" src="mont-saint-michel.jpeg" alt="Mont Saint-Michel">
                     <div class="poster-info">
@@ -349,6 +365,7 @@
                     </div>
                 </div>
 
+                <!-- Saint-Malo -->
                 <div class="poster-container">
                     <img class="poster" src="saint-malo.jpeg" alt="Saint-Malo">
                     <div class="poster-info">
@@ -361,6 +378,7 @@
                     </div>
                 </div>
 
+                <!-- Mont Dore -->
                 <div class="poster-container">
                     <img class="poster" src="mont-dore.jpeg" alt="Mont Dore">
                     <div class="poster-info">
@@ -379,6 +397,9 @@
         <div style="height: 100px;"></div>
     </div>
 
+    <!-- UI ELEMENTS (Hidden by default) -->
+    
+    <!-- Info Modal -->
     <div class="modal-overlay" id="infoModal" onclick="closeModal(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal(event)">✕</button>
@@ -393,6 +414,7 @@
         </div>
     </div>
 
+    <!-- 🎥 THE REAL VIDEO PLAYER MONTAGE -->
     <div class="video-player" id="videoPlayer">
         <button class="video-close" onclick="closeVideo()">← Back</button>
         <video id="heroVideo" controls>
@@ -401,8 +423,10 @@
         </video>
     </div>
 
+    <!-- Toast Notification -->
     <div class="toast" id="toastBox">Notification</div>
 
+    <!-- 4. JAVASCRIPT LOGIC -->
     <script>
         // --- 1. Login Handling ---
         document.getElementById('loginForm').addEventListener('submit', function(e) {
