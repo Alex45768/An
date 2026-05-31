@@ -130,7 +130,6 @@
                         linear-gradient(to top, #141414 5%, transparent 40%),
                         url('hero-bg.JPG'); 
             background-size: cover;
-            /* FOCUSES ON THE BOTTOM 85% OF THE PHOTO */
             background-position: center 85%; 
             display: flex;
             flex-direction: column;
@@ -169,7 +168,7 @@
         }
         .poster {
             width: 100%; height: 100%; object-fit: cover; border-radius: 4px;
-            /* FOCUSES ON THE BOTTOM 85% OF THE PHOTO */
+            /* Default focus for posters */
             object-position: center 85%; 
         }
         
@@ -217,7 +216,7 @@
         }
         .modal-hero { 
             width: 100%; height: 350px; object-fit: cover; 
-            /* FOCUSES ON THE BOTTOM 85% OF THE PHOTO */
+            /* Default modal focus */
             object-position: center 85%;
         }
         .modal-text { padding: 30px; }
@@ -303,7 +302,7 @@
             <div class="hero-description">The critically acclaimed story of how two people fell in love. Featuring endless laughs, unforgettable dates, and the best year of my life.</div>
             <div class="btn-group">
                 <button class="btn-play" onclick="playHeroVideo()">▶ Play</button>
-                <button class="btn-info" onclick="openModal('SEASON 1', 'The story of us.', 'hero-modal.jpeg')">ℹ More Info</button>
+                <button class="btn-info" onclick="openModal('SEASON 1', 'The story of us.', 'hero-modal.jpeg', 'center 85%')">ℹ More Info</button>
             </div>
         </div>
 
@@ -318,33 +317,33 @@
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Annecy', 'That unforgettable drive down in the GLC 220d.', 'annecy-modal.jpeg')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Annecy', 'That unforgettable drive down in the GLC 220d.', 'annecy-modal.jpeg', 'center 85%')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">99% Match</span> <span>2026</span> <span class="age-rating">TV-MA</span></div>
                         <div class="poster-title-text">Annecy</div>
                     </div>
                 </div>
 
-                <!-- Jura -->
+                <!-- Jura (CUSTOM TOP CROP APPLIED HERE) -->
                 <div class="poster-container">
-                    <img class="poster" src="jura.jpeg" alt="Jura">
+                    <img class="poster" src="jura.jpeg" alt="Jura" style="object-position: center top;">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Jura', 'Escaping to the mountains.', 'jura-modal.jpeg')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Jura', 'Escaping to the mountains.', 'jura-modal.jpeg', 'center top')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">98% Match</span> <span>2026</span> <span class="age-rating">TV-14</span></div>
                         <div class="poster-title-text">Jura</div>
                     </div>
                 </div>
 
-                <!-- Amsterdam -->
+                <!-- Amsterdam (CUSTOM TOP CROP APPLIED HERE) -->
                 <div class="poster-container">
-                    <img class="poster" src="amsterdam.jpeg" alt="Amsterdam">
+                    <img class="poster" src="amsterdam.jpeg" alt="Amsterdam" style="object-position: center top;">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Amsterdam', 'Canals, bikes, and us.', 'amsterdam-modal.jpeg')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Amsterdam', 'Canals, bikes, and us.', 'amsterdam-modal.jpeg', 'center top')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">100% Match</span> <span>2026</span></div>
                         <div class="poster-title-text">Amsterdam</div>
@@ -357,7 +356,7 @@
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Mont Saint-Michel', 'Like a fairytale come to life.', 'mont-saint-michel-modal.jpeg')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Mont Saint-Michel', 'Like a fairytale come to life.', 'mont-saint-michel-modal.jpeg', 'center 85%')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">97% Match</span></div>
                         <div class="poster-title-text">Mont Saint-Michel</div>
@@ -370,7 +369,7 @@
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Saint-Malo', 'Ocean breeze and ramparts.', 'saint-malo-modal.jpeg')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Saint-Malo', 'Ocean breeze and ramparts.', 'saint-malo-modal.jpeg', 'center 85%')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">99% Match</span></div>
                         <div class="poster-title-text">Saint-Malo</div>
@@ -383,7 +382,7 @@
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Mont Dore', 'Our volcanic getaway.', 'mont-dore-modal.jpeg')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Mont Dore', 'Our volcanic getaway.', 'mont-dore-modal.jpeg', 'center 85%')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">98% Match</span></div>
                         <div class="poster-title-text">Mont Dore</div>
@@ -462,11 +461,16 @@
             }
         });
 
-        // --- 4. Modal Popups (More Info) ---
-        function openModal(title, desc, imgSrc) {
+        // --- 4. Modal Popups (More Info) - UPDATED TO ACCEPT CUSTOM CROPPING ---
+        function openModal(title, desc, imgSrc, objPos = 'center 85%') {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalDesc').innerText = desc;
-            document.getElementById('modalImg').src = imgSrc;
+            
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = imgSrc;
+            // Dynamically applies the correct crop (top or bottom) depending on the photo clicked
+            modalImg.style.objectPosition = objPos; 
+            
             document.getElementById('infoModal').style.display = 'flex';
         }
 
