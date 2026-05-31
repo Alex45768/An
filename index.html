@@ -129,8 +129,10 @@
             background: linear-gradient(to right, #141414 10%, transparent 60%),
                         linear-gradient(to top, #141414 5%, transparent 40%),
                         url('hero-bg.JPG'); 
-            background-size: cover;
-            background-position: center 10%; 
+            /* Shows the FULL image, no cropping */
+            background-size: contain; 
+            background-repeat: no-repeat;
+            background-position: center center; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -152,7 +154,7 @@
 
         /* Netflix Rows & Hover Cards */
         .row { padding: 0 50px; margin-top: -50px; position: relative; z-index: 10; margin-bottom: 40px; }
-        .row.standard { margin-top: 30px; } /* For rows not overlapping the hero */
+        .row.standard { margin-top: 30px; } 
         .row h3 { margin-bottom: 15px; font-size: 1.4rem; color: #e5e5e5; }
         .row-posters {
             display: flex; overflow-x: auto; overflow-y: hidden; padding: 20px 0; gap: 15px;
@@ -166,9 +168,12 @@
             border-radius: 4px;
             transition: transform 0.4s ease, z-index 0.4s ease;
             cursor: pointer;
+            background-color: #000;
         }
         .poster {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 4px;
+            width: 100%; height: 100%; border-radius: 4px;
+            /* OBJECT-FIT: CONTAIN guarantees the entire photo is always shown without cropping */
+            object-fit: contain; 
         }
         
         .poster-info {
@@ -193,11 +198,11 @@
         .top-10-container:hover { transform: scale(1.1); z-index: 20; }
         .big-number {
             font-size: 180px; font-weight: 900; color: #141414;
-            -webkit-text-stroke: 4px #595959; /* The hollow number outline */
+            -webkit-text-stroke: 4px #595959; 
             line-height: 1; letter-spacing: -10px; margin-right: -25px; z-index: 5;
         }
         .top-10-img {
-            width: 130px; height: 100%; object-fit: cover; border-radius: 4px; z-index: 10;
+            width: 130px; height: 100%; object-fit: contain; background-color: #000; border-radius: 4px; z-index: 10;
             box-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
 
@@ -230,7 +235,10 @@
             cursor: pointer; font-size: 1.2rem; z-index: 10; border: none; color: white;
         }
         .modal-hero { 
-            width: 100%; height: 350px; object-fit: cover; 
+            width: 100%; height: 350px; 
+            /* Guarantees the entire photo is shown in the pop-up */
+            object-fit: contain; 
+            background-color: #000;
         }
         .modal-text { padding: 30px; }
         .modal-text h2 { font-size: 2rem; margin-bottom: 10px; }
@@ -315,7 +323,7 @@
             <div class="hero-description">The critically acclaimed story of how two people fell in love. Featuring endless laughs, unforgettable dates, and the best year of my life.</div>
             <div class="btn-group">
                 <button class="btn-play" onclick="playHeroVideo()">▶ Play</button>
-                <button class="btn-info" onclick="openModal('SEASON 1', 'The story of us.', 'hero-modal.jpeg', 'center 5%')">ℹ More Info</button>
+                <button class="btn-info" onclick="openModal('SEASON 1', 'The story of us.', 'hero-modal.jpeg')">ℹ More Info</button>
             </div>
         </div>
 
@@ -324,66 +332,66 @@
             <h3>Trending: Our Adventures</h3>
             <div class="row-posters">
                 <div class="poster-container">
-                    <img class="poster" src="annecy.JPG" alt="Annecy" style="object-position: center 20%;">
+                    <img class="poster" src="annecy.JPG" alt="Annecy">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Annecy', 'That unforgettable drive down in the GLC 220d.', 'annecy-modal.jpeg', 'center 20%')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Annecy', 'That unforgettable drive down in the GLC 220d.', 'annecy-modal.jpeg')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">99% Match</span> <span>2026</span> <span class="age-rating">TV-MA</span></div>
                         <div class="poster-title-text">Annecy</div>
                     </div>
                 </div>
                 <div class="poster-container">
-                    <img class="poster" src="jura.jpeg" alt="Jura" style="object-position: center 50%;">
+                    <img class="poster" src="jura.jpeg" alt="Jura">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Jura', 'Escaping to the mountains.', 'jura-modal.jpeg', 'center 50%')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Jura', 'Escaping to the mountains.', 'jura-modal.jpeg')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">98% Match</span> <span>2026</span> <span class="age-rating">TV-14</span></div>
                         <div class="poster-title-text">Jura</div>
                     </div>
                 </div>
                 <div class="poster-container">
-                    <img class="poster" src="amsterdam.jpeg" alt="Amsterdam" style="object-position: center 65%;">
+                    <img class="poster" src="amsterdam.jpeg" alt="Amsterdam">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Amsterdam', 'Canals, bikes, and us.', 'amsterdam-modal.jpeg', 'center 65%')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Amsterdam', 'Canals, bikes, and us.', 'amsterdam-modal.jpeg')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">100% Match</span> <span>2026</span></div>
                         <div class="poster-title-text">Amsterdam</div>
                     </div>
                 </div>
                 <div class="poster-container">
-                    <img class="poster" src="mont-saint-michel.jpeg" alt="Mont Saint-Michel" style="object-position: center 50%;">
+                    <img class="poster" src="mont-saint-michel.jpeg" alt="Mont Saint-Michel">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Mont Saint-Michel', 'Like a fairytale come to life.', 'mont-saint-michel-modal.jpeg', 'center 50%')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Mont Saint-Michel', 'Like a fairytale come to life.', 'mont-saint-michel-modal.jpeg')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">97% Match</span></div>
                         <div class="poster-title-text">Mont Saint-Michel</div>
                     </div>
                 </div>
                 <div class="poster-container">
-                    <img class="poster" src="saint-malo.jpeg" alt="Saint-Malo" style="object-position: center 50%;">
+                    <img class="poster" src="saint-malo.jpeg" alt="Saint-Malo">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Saint-Malo', 'Ocean breeze and ramparts.', 'saint-malo-modal.jpeg', 'center 50%')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Saint-Malo', 'Ocean breeze and ramparts.', 'saint-malo-modal.jpeg')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">99% Match</span></div>
                         <div class="poster-title-text">Saint-Malo</div>
                     </div>
                 </div>
                 <div class="poster-container">
-                    <img class="poster" src="mont-dore.jpeg" alt="Mont Dore" style="object-position: center 25%;">
+                    <img class="poster" src="mont-dore.jpeg" alt="Mont Dore">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Playing full memories soon!')">▶</button>
-                            <button class="mini-btn" onclick="openModal('Mont Dore', 'Our volcanic getaway.', 'mont-dore-modal.jpeg', 'center 25%')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Mont Dore', 'Our volcanic getaway.', 'mont-dore-modal.jpeg')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">98% Match</span></div>
                         <div class="poster-title-text">Mont Dore</div>
@@ -436,11 +444,11 @@
             <div class="row-posters">
                 <!-- CLUJ TRIP TEASER -->
                 <div class="poster-container">
-                    <img class="poster" src="https://images.unsplash.com/photo-1584288405070-55e1140024f2?w=500&q=80" alt="Cluj" style="object-position: center;">
+                    <img class="poster" src="https://images.unsplash.com/photo-1584288405070-55e1140024f2?w=500&q=80" alt="Cluj">
                     <div class="poster-info">
                         <div class="poster-controls">
                             <button class="mini-btn" onclick="showToast('Tickets are booked!')">✈</button>
-                            <button class="mini-btn" onclick="openModal('Season 2: The Romanian Getaway', 'Landing in Cluj on June 12th to kick off our next chapter.', 'https://images.unsplash.com/photo-1584288405070-55e1140024f2?w=1000&q=80', 'center center')">ℹ</button>
+                            <button class="mini-btn" onclick="openModal('Season 2: The Romanian Getaway', 'Landing in Cluj on June 12th to kick off our next chapter.', 'https://images.unsplash.com/photo-1584288405070-55e1140024f2?w=1000&q=80')">ℹ</button>
                         </div>
                         <div class="poster-metadata"><span class="match">New Episodes</span> <span>June 2026</span></div>
                         <div class="poster-title-text">Episode 1: Cluj</div>
@@ -512,13 +520,12 @@
         });
 
         // --- 4. Modal Popups (Standard) ---
-        function openModal(title, desc, imgSrc, objPos = 'center 85%') {
+        function openModal(title, desc, imgSrc) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalDesc').innerText = desc;
             
             const modalImg = document.getElementById('modalImg');
             modalImg.src = imgSrc;
-            modalImg.style.objectPosition = objPos; 
             
             // Reset metadata tags to default Netflix style
             document.getElementById('modalMatch').innerText = "100% Match";
@@ -547,7 +554,6 @@
             // Use placeholder heart images for the top 5 modals
             const modalImg = document.getElementById('modalImg');
             modalImg.src = "https://images.unsplash.com/photo-1518199266791-5375a83164ba?w=1000&q=80";
-            modalImg.style.objectPosition = "center center";
             
             // Hide the year and rating tags for the love list
             document.getElementById('modalMatch').innerText = "Top 5 List";
