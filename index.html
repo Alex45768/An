@@ -95,7 +95,7 @@
         .profile:hover .profile-name { color: #fff; }
 
         /* --- DASHBOARD STYLES --- */
-        #dashboard-screen { display: none; }
+        #dashboard-screen { display: none; padding-bottom: 100px; }
         .nav-bar {
             display: flex;
             justify-content: space-between;
@@ -152,6 +152,7 @@
 
         /* Netflix Rows & Hover Cards */
         .row { padding: 0 50px; margin-top: -50px; position: relative; z-index: 10; margin-bottom: 40px; }
+        .row.standard { margin-top: 30px; } /* For rows not overlapping the hero */
         .row h3 { margin-bottom: 15px; font-size: 1.4rem; color: #e5e5e5; }
         .row-posters {
             display: flex; overflow-x: auto; overflow-y: hidden; padding: 20px 0; gap: 15px;
@@ -184,6 +185,22 @@
         .poster-container:hover { transform: scale(1.15); z-index: 20; }
         .poster-container:hover .poster-info { opacity: 1; }
         
+        /* Netflix TOP 10 Style */
+        .top-10-container {
+            display: flex; align-items: center; position: relative; min-width: 250px; height: 200px;
+            transition: transform 0.4s ease, z-index 0.4s ease; cursor: pointer;
+        }
+        .top-10-container:hover { transform: scale(1.1); z-index: 20; }
+        .big-number {
+            font-size: 180px; font-weight: 900; color: #141414;
+            -webkit-text-stroke: 4px #595959; /* The hollow number outline */
+            line-height: 1; letter-spacing: -10px; margin-right: -25px; z-index: 5;
+        }
+        .top-10-img {
+            width: 130px; height: 100%; object-fit: cover; border-radius: 4px; z-index: 10;
+            box-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
         .poster-controls { display: flex; gap: 10px; margin-bottom: 10px; }
         .mini-btn { 
             width: 30px; height: 30px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); 
@@ -245,6 +262,7 @@
 </head>
 <body>
 
+    <!-- 1. LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-header">
             <h1 class="netflix-logo">OurFlix</h1>
@@ -265,6 +283,7 @@
         </div>
     </div>
 
+    <!-- 2. PROFILE SELECTION -->
     <div id="profile-screen">
         <h1 class="profile-title">Who's watching?</h1>
         <div class="profile" id="milan-profile">
@@ -273,6 +292,7 @@
         </div>
     </div>
 
+    <!-- 3. MAIN DASHBOARD -->
     <div id="dashboard-screen">
         
         <div class="nav-bar" id="navbar">
@@ -299,10 +319,10 @@
             </div>
         </div>
 
+        <!-- ROW 1: OUR ADVENTURES -->
         <div class="row">
             <h3>Trending: Our Adventures</h3>
             <div class="row-posters">
-                
                 <div class="poster-container">
                     <img class="poster" src="annecy.JPG" alt="Annecy" style="object-position: center 20%;">
                     <div class="poster-info">
@@ -314,7 +334,6 @@
                         <div class="poster-title-text">Annecy</div>
                     </div>
                 </div>
-
                 <div class="poster-container">
                     <img class="poster" src="jura.jpeg" alt="Jura" style="object-position: center 50%;">
                     <div class="poster-info">
@@ -326,7 +345,6 @@
                         <div class="poster-title-text">Jura</div>
                     </div>
                 </div>
-
                 <div class="poster-container">
                     <img class="poster" src="amsterdam.jpeg" alt="Amsterdam" style="object-position: center 65%;">
                     <div class="poster-info">
@@ -338,7 +356,6 @@
                         <div class="poster-title-text">Amsterdam</div>
                     </div>
                 </div>
-
                 <div class="poster-container">
                     <img class="poster" src="mont-saint-michel.jpeg" alt="Mont Saint-Michel" style="object-position: center 50%;">
                     <div class="poster-info">
@@ -350,7 +367,6 @@
                         <div class="poster-title-text">Mont Saint-Michel</div>
                     </div>
                 </div>
-
                 <div class="poster-container">
                     <img class="poster" src="saint-malo.jpeg" alt="Saint-Malo" style="object-position: center 50%;">
                     <div class="poster-info">
@@ -362,7 +378,6 @@
                         <div class="poster-title-text">Saint-Malo</div>
                     </div>
                 </div>
-
                 <div class="poster-container">
                     <img class="poster" src="mont-dore.jpeg" alt="Mont Dore" style="object-position: center 25%;">
                     <div class="poster-info">
@@ -374,13 +389,70 @@
                         <div class="poster-title-text">Mont Dore</div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- NEW ROW 2: TOP 5 TODAY -->
+        <div class="row standard">
+            <h3>Top 5 Reasons I Love You Today</h3>
+            <div class="row-posters">
+                
+                <!-- Number 1 -->
+                <div class="top-10-container" onclick="openTop5Modal(1)">
+                    <div class="big-number">1</div>
+                    <img class="top-10-img" src="https://images.unsplash.com/photo-1518599904199-0ca897819ddb?w=500&q=80" alt="1">
+                </div>
+
+                <!-- Number 2 -->
+                <div class="top-10-container" onclick="openTop5Modal(2)">
+                    <div class="big-number">2</div>
+                    <img class="top-10-img" src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?w=500&q=80" alt="2">
+                </div>
+
+                <!-- Number 3 -->
+                <div class="top-10-container" onclick="openTop5Modal(3)">
+                    <div class="big-number">3</div>
+                    <img class="top-10-img" src="https://images.unsplash.com/photo-1516726817505-f5ed825624d8?w=500&q=80" alt="3">
+                </div>
+
+                <!-- Number 4 -->
+                <div class="top-10-container" onclick="openTop5Modal(4)">
+                    <div class="big-number">4</div>
+                    <img class="top-10-img" src="https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=500&q=80" alt="4">
+                </div>
+
+                <!-- Number 5 -->
+                <div class="top-10-container" onclick="openTop5Modal(5)">
+                    <div class="big-number">5</div>
+                    <img class="top-10-img" src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=500&q=80" alt="5">
+                </div>
 
             </div>
         </div>
 
-        <div style="height: 100px;"></div>
+        <!-- NEW ROW 3: COMING SOON -->
+        <div class="row standard">
+            <h3>Coming Soon: Season 2</h3>
+            <div class="row-posters">
+                <!-- CLUJ TRIP TEASER -->
+                <div class="poster-container">
+                    <img class="poster" src="https://images.unsplash.com/photo-1584288405070-55e1140024f2?w=500&q=80" alt="Cluj" style="object-position: center;">
+                    <div class="poster-info">
+                        <div class="poster-controls">
+                            <button class="mini-btn" onclick="showToast('Tickets are booked!')">✈</button>
+                            <button class="mini-btn" onclick="openModal('Season 2: The Romanian Getaway', 'Landing in Cluj on June 12th to kick off our next chapter.', 'https://images.unsplash.com/photo-1584288405070-55e1140024f2?w=1000&q=80', 'center center')">ℹ</button>
+                        </div>
+                        <div class="poster-metadata"><span class="match">New Episodes</span> <span>June 2026</span></div>
+                        <div class="poster-title-text">Episode 1: Cluj</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+    <!-- UI ELEMENTS -->
+    <!-- Info Modal -->
     <div class="modal-overlay" id="infoModal" onclick="closeModal(event)">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal(event)">✕</button>
@@ -388,13 +460,14 @@
             <div class="modal-text">
                 <h2 id="modalTitle">Title</h2>
                 <div class="poster-metadata" style="margin-bottom: 15px;">
-                    <span class="match">100% Match</span> <span>2026</span> <span class="age-rating">HD</span>
+                    <span class="match" id="modalMatch">100% Match</span> <span id="modalYear">2026</span> <span class="age-rating" id="modalRating">HD</span>
                 </div>
                 <p id="modalDesc">Description goes here.</p>
             </div>
         </div>
     </div>
 
+    <!-- Video Player -->
     <div class="video-player" id="videoPlayer">
         <button class="video-close" onclick="closeVideo()">← Back</button>
         <video id="heroVideo" controls>
@@ -403,15 +476,15 @@
         </video>
     </div>
 
+    <!-- Toast Notification -->
     <div class="toast" id="toastBox">Notification</div>
 
+    <!-- 4. JAVASCRIPT LOGIC -->
     <script>
         // --- 1. Login Handling ---
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
             const passcode = document.getElementById('passcode').value.toLowerCase().trim();
-            
-            // Password Check
             if(passcode === "0531" || passcode === "i love you") {
                 document.getElementById('login-screen').style.display = 'none';
                 const profileScreen = document.getElementById('profile-screen');
@@ -434,14 +507,11 @@
         // --- 3. Navbar Scroll Effect ---
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 10) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            if (window.scrollY > 10) { navbar.classList.add('scrolled'); } 
+            else { navbar.classList.remove('scrolled'); }
         });
 
-        // --- 4. Modal Popups (More Info) ---
+        // --- 4. Modal Popups (Standard) ---
         function openModal(title, desc, imgSrc, objPos = 'center 85%') {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalDesc').innerText = desc;
@@ -450,11 +520,44 @@
             modalImg.src = imgSrc;
             modalImg.style.objectPosition = objPos; 
             
+            // Reset metadata tags to default Netflix style
+            document.getElementById('modalMatch').innerText = "100% Match";
+            document.getElementById('modalYear').style.display = "inline";
+            document.getElementById('modalRating').style.display = "inline";
+
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        // --- 4.5. Top 5 Modal Popups (Custom Reasons) ---
+        function openTop5Modal(number) {
+            // ---> CHANGE THESE REASONS TO MAKE THEM YOUR OWN! <---
+            const reasons = {
+                1: { title: "Your Smile", desc: "It completely lights up my world every single time I see it." },
+                2: { title: "Your Sense of Adventure", desc: "Whether we are driving to Annecy or exploring Amsterdam, you make every trip unforgettable." },
+                3: { title: "Your Kindness", desc: "The way you care for people is the most beautiful thing about you." },
+                4: { title: "Your Sense of Humor", desc: "Nobody can make me laugh the way you do." },
+                5: { title: "Everything Else", desc: "Honestly, there isn't a single thing about you I don't love. Here's to Season 2." }
+            };
+
+            const selected = reasons[number];
+            
+            document.getElementById('modalTitle').innerText = "#" + number + ": " + selected.title;
+            document.getElementById('modalDesc').innerText = selected.desc;
+            
+            // Use placeholder heart images for the top 5 modals
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = "https://images.unsplash.com/photo-1518199266791-5375a83164ba?w=1000&q=80";
+            modalImg.style.objectPosition = "center center";
+            
+            // Hide the year and rating tags for the love list
+            document.getElementById('modalMatch').innerText = "Top 5 List";
+            document.getElementById('modalYear').style.display = "none";
+            document.getElementById('modalRating').style.display = "none";
+
             document.getElementById('infoModal').style.display = 'flex';
         }
 
         function closeModal(e) {
-            // Only close if they click the 'X' or the background overlay
             if (e.target.id === 'infoModal' || e.target.classList.contains('modal-close')) {
                 document.getElementById('infoModal').style.display = 'none';
             }
@@ -464,25 +567,22 @@
         function playHeroVideo() {
             document.getElementById('videoPlayer').style.display = 'flex';
             const video = document.getElementById('heroVideo');
-            video.play(); // Auto-start the video
+            video.play();
         }
 
         function closeVideo() {
             document.getElementById('videoPlayer').style.display = 'none';
             const video = document.getElementById('heroVideo');
-            video.pause(); // Pause when exiting
-            video.currentTime = 0; // Rewind to start
+            video.pause();
+            video.currentTime = 0; 
         }
 
         // --- 6. Toast Notifications ---
         function showToast(message) {
             const toast = document.getElementById('toastBox');
             toast.innerText = message;
-            toast.style.bottom = '20px'; // Slide up
-            
-            setTimeout(() => {
-                toast.style.bottom = '-100px';
-            }, 3000);
+            toast.style.bottom = '20px'; 
+            setTimeout(() => { toast.style.bottom = '-100px'; }, 3000);
         }
     </script>
 </body>
